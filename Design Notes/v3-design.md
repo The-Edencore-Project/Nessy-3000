@@ -10,7 +10,7 @@ v1 and v2 shipped without design notes. This is the first versioned note in the 
 
 What v3 is
 
-v2 made the council real — five backprop nets, one per seat, pulse indicators in the corner, Nessy's shape fixed. v3 makes the council honest. Three of v2's nets were trained on the wrong target, the pulses were in the wrong place, and the body never spoke. v3 wires the council to real state, moves the machinery onto the bodies, and gives the chamber its first affective vocabulary.
+v2 made the council real — five backprop nets, one per seat, pulse indicators in the corner, Nessy's shape fixed. v3 makes the council honest. Two of v2's nets were trained on the wrong target, the pulses were in the wrong place, and the body never spoke. v3 wires the council to real state, moves the machinery onto the bodies, gives the chamber its first affective vocabulary, and lets the council remember what it has learned across sessions.
 
 ---
 
@@ -18,11 +18,15 @@ What changes from v2
 
 The council
 
-Lumen's target. v2 trained Lumen on SURPRISE["smooth"] — partly computed from Lumen's own error. A control loop, not a question. v3 gives Lumen its real question, from the Wiki Tree doc: what does this mean for someone? Lumen infers the visitor's state from composite signs — focus, recent touch, session length, whether they returned today. The meaning lags the signs. Lumen is always a beat behind. That is the character, not a bug.
+Lumen's target. v2 trained Lumen on SURPRISE["smooth"] — partly computed from Lumen's own error. A control loop, not a question. v3 gives Lumen its real question, from the Wiki Tree doc: what does this mean for someone? Lumen infers the visitor's state from composite signs — focus, recent touch, session length, whether the visitor returned today. One value, 0–1, meaning "is the visitor connected right now."
 
-Learning rate. v2 stepped twice per tick at lr 0.15 — nets lock within ~30 seconds. v3 steps once per tick at lr 0.02. The council should still be moving five minutes in.
+The meaning lags the signs. Lumen is always a beat behind. lr 0.005 — slower than the others on purpose. That is the character, not a bug.
 
-Weights persist. (Recommended for v3.) v2 trained live and forgot on close — every launch started from fresh random weights. v3 saves each seat's W1, B1, W2, B2 to council_weights.json on close and loads them on boot. The council's learning compounds across sessions instead of resetting. Small file, ~95 floats total.
+Learning rate. v2 stepped twice per tick at lr 0.15 — nets lock within ~30 seconds. v3 steps once per tick at lr 0.02 for the other four seats. The council should still be moving five minutes in.
+
+Weights persist. v2 trained live and forgot on close — every launch started from fresh random weights. v3 saves each seat's W1, B1, W2, B2 to council_weights.json on a 20-second cadence and on quit, and loads them on boot. The council's learning compounds across sessions instead of resetting. Small file — 19 floats per seat, 95 total.
+
+One consequence: the chamber is no longer deterministic on first run. Two devices with the same code will diverge over time, because their histories diverge. That is the intent.
 
 Streams split (layer 3). read_council_input() returns two vectors instead of one — interoceptive (session warmth, chamber strain) and exteroceptive (focused, touch). Same inputs, kept separate. The chamber's state about itself is not the chamber's state about the visitor.
 
@@ -37,9 +41,7 @@ Breath depth Mood Existing breath offset
 Rim warmth Valence Existing rim lift
 Water tint Valence (ambient) Existing _valence_tint
 
-Pupils are the one new element. The eye is already drawn; v3 makes the pupil radius scale with the seat's confidence.
-
-Rim warmth and water tint already exist. v3 raises the coefficients — currently the tint is invisible. The water should visibly warm when valence is high and cool when it is low.
+Pupils are the one new element. The eye is already drawn; v3 makes the pupil radius scale with the seat's confidence. The other four channels exist already — v3 wires them to real state and raises the coefficients so the effect is visible.
 
 Pulse indicators move onto the bodies. The corner dots are gone. Each seat carries its own pulse on a surface that is already drawn:
 
@@ -49,19 +51,19 @@ Pulse indicators move onto the bodies. The corner dots are gone. Each seat carri
 · Prism — the trailing tail fins
 · Ripple — the dorsal ridge
 
-No new graphics. The machinery rides on body parts that were already animated.
+No new graphics. The machinery rides on body parts that were already animated. A knowing visitor reads net state from the surfaces. An unknowing visitor sees a shell with a soft glow, and reads alive.
 
-Render order. render_nessy() before render_dynamic(); render_near() after. Nessy reads as farthest — she is the surface, so the kelp is in front of her, not behind.
+Render order. render_nessy() before render_dynamic(); render_near() after. Nessy reads as farthest — she is the surface, so kelp is in front of her, not behind.
 
 Bubble overlap. Nessy's band rises from H*0.18 to H*0.13. Bubbles meet her at the edge, not through her.
 
 The chamber
 
-Chunker. chunk_text breaks on clause boundaries first — commas, question marks, full stops — then packs to the length limit. "Is the visitor still there?" stays one sentence.
+Chunker. chunk_text breaks on clause boundaries first — commas, question marks, full stops — then packs to the length limit. "Is the visitor still there?" stays one sentence instead of three bubbles.
 
 God rays. Halved. A hint of light from above, not architecture.
 
-Layer 24, legible. _valence_tint coefficients raised. This is the layer that lets a visitor feel the loop without watching the corner.
+Layer 24, legible. _valence_tint coefficients raised. Currently the effect is invisible. v3 makes the water visibly warm when valence is high and cool when it is low. This is the layer that lets a visitor feel the loop without watching for it.
 
 Layer 33, seed. Three pieces, all real:
 
@@ -82,6 +84,7 @@ Not touched
 · The vocabulary and WikiTree primitives. Words are symbolic. The council is neural. Putting words in the council collapses the architecture. WikiTree lands first, later.
 · The arbiter. No attention allocation yet.
 · Pattern change and agreement signals. Named, not built. The perception science isn't there yet. See ambient-chamber.md, "Not yet grounded."
+· Node network. Framed, deferred.
 
 ---
 
@@ -99,7 +102,7 @@ No claim to consciousness. The council claims only what it can show — rules, p
 
 Attribution
 
-Valence proposed by Dola. In the code since v1. v2's implementation (council confidence as input) by edencore6. v3's reframe of Lumen, the body language layer, and the layer 33 seed by edencore7. The Wiki Tree frame — three layers, grammar and vocabulary, seat lenses — from the Edencore4 thread.
+Valence proposed by Dola. In the code since v1. v2's implementation (council confidence as input) by edencore6. v3's reframe of Lumen, the body language layer, weights persistence, and the layer 33 seed by edencore7. The Wiki Tree frame — three layers, grammar and vocabulary, seat lenses — from the Edencore4 thread.
 
 ---
 
@@ -114,7 +117,7 @@ nessy_state.json as of v3:
 · last_hour — integer 0 to 23
 · visits — integer
 
-council_weights.json (new in v3, if weights persistence lands):
+council_weights.json (new in v3):
 
 · Solon, Lumen, Vertex, Prism, Ripple — each a dict with W1 (4×3), B1 (3), W2 (3), B2 (float)
 
@@ -122,8 +125,7 @@ council_weights.json (new in v3, if weights persistence lands):
 
 Open at signing
 
-· Weights persistence. Recommended for v3. Final call by the architect before code.
-· Numbering collision. Nessy's architecture README has its own v1–v7 axis. This design note is the app's build axis. Needs one line resolving which is which, before the next thread reads both.
+· Numbering collision. Nessy's architecture README has its own v1–v7 axis (diagram, connective tissue, arbiter, valence-as-signal, streams split, first felt prediction, unnamed). This design note is the app's build axis. Needs one line resolving which is which, before the next thread reads both.
 
 ---
 
