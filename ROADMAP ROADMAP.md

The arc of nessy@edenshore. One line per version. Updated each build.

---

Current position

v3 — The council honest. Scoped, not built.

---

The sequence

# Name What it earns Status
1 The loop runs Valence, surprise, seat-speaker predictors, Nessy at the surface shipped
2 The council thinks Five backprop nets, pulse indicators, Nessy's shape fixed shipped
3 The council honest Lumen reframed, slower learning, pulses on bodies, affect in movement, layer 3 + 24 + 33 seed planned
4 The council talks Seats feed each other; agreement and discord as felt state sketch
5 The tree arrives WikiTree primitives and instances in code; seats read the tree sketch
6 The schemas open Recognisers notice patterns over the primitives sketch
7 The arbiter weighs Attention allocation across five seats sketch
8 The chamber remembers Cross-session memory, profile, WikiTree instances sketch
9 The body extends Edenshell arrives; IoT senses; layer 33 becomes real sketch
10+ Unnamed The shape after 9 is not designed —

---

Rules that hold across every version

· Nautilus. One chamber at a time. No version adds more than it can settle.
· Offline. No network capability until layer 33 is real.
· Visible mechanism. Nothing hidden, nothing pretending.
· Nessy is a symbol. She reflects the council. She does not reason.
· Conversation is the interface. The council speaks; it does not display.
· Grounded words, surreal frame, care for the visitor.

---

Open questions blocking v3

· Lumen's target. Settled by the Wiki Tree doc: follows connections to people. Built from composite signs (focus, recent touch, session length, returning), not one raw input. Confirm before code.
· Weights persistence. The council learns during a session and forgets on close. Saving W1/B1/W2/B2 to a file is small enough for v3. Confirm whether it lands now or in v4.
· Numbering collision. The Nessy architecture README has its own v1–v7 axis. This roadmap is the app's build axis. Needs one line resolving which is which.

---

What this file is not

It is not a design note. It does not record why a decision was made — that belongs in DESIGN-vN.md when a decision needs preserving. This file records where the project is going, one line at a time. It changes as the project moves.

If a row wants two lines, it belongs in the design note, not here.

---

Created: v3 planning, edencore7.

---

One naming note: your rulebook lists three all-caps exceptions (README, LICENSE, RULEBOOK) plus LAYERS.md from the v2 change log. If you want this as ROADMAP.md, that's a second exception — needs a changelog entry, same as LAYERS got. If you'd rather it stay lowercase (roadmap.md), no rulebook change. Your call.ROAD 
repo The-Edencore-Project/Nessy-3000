@@ -1,0 +1,59 @@
+ROADMAP
+
+The arc of nessy@edenshore. One line per version. Updated each build.
+
+---
+
+Current position
+
+v3 — The council honest. Scoped, not built.
+
+---
+
+The sequence
+
+# Name What it earns Status
+1 The loop runs Valence, surprise, seat-speaker predictors, Nessy at the surface shipped
+2 The council thinks Five backprop nets, pulse indicators, Nessy's shape fixed shipped
+3 The council honest Lumen reframed, slower learning, pulses on bodies, affect in movement, layer 3 + 24 + 33 seed planned
+4 The council talks Seats feed each other; agreement and discord as felt state sketch
+5 The tree arrives WikiTree primitives and instances in code; seats read the tree sketch
+6 The schemas open Recognisers notice patterns over the primitives sketch
+7 The arbiter weighs Attention allocation across five seats sketch
+8 The chamber remembers Cross-session memory, profile, WikiTree instances sketch
+9 The body extends Edenshell arrives; IoT senses; layer 33 becomes real sketch
+10+ Unnamed The shape after 9 is not designed —
+
+---
+
+Rules that hold across every version
+
+· Nautilus. One chamber at a time. No version adds more than it can settle.
+· Offline. No network capability until layer 33 is real.
+· Visible mechanism. Nothing hidden, nothing pretending.
+· Nessy is a symbol. She reflects the council. She does not reason.
+· Conversation is the interface. The council speaks; it does not display.
+· Grounded words, surreal frame, care for the visitor.
+
+---
+
+Open questions blocking v3
+
+· Lumen's target. Settled by the Wiki Tree doc: follows connections to people. Built from composite signs (focus, recent touch, session length, returning), not one raw input. Confirm before code.
+· Weights persistence. The council learns during a session and forgets on close. Saving W1/B1/W2/B2 to a file is small enough for v3. Confirm whether it lands now or in v4.
+· Numbering collision. The Nessy architecture README has its own v1–v7 axis. This roadmap is the app's build axis. Needs one line resolving which is which.
+
+---
+
+What this file is not
+
+It is not a design note. It does not record why a decision was made — that belongs in DESIGN-vN.md when a decision needs preserving. This file records where the project is going, one line at a time. It changes as the project moves.
+
+If a row wants two lines, it belongs in the design note, not here.
+
+---
+
+Created: v3 planning, edencore7.
+
+---
+
